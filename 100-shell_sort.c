@@ -24,13 +24,12 @@ void shell_sort(int *array, size_t size)
 		while (x < size)
 		{
 			y = x;
-			while (y >= gap && array[y - gap] > array[y])
+			for (; y >= gap && array[y - gap] > array[y]; y = y - gap;)
 			{
 				p = array[y];
 				array[y] = array[y - gap];
 				array[y - gap] = p;
 
-				y -= gap;
 			}
 			x += 1;
 		}
