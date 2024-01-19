@@ -9,6 +9,7 @@
  */
 void swap_nodes_right_to_left(listint_t **list, listint_t *current)
 {
+<<<<<<< HEAD
 	listint_t *prev = current->prev;
 	listint_t *next = current->next;
 
@@ -25,6 +26,27 @@ void swap_nodes_right_to_left(listint_t **list, listint_t *current)
 
 	if (current->next)
 		current->next->prev = current;
+=======
+    listint_t *prev = current->prev;
+    listint_t *next = current->next;
+
+    if (prev)
+        prev->next = next;
+    if (next)
+        next->prev = prev;
+
+    current->prev = prev ? prev->prev : NULL;
+    current->next = prev;
+
+    if (prev)
+        prev->prev = current;
+
+    if (!current->prev)
+        *list = current;
+
+    if (current->next)
+        current->next->prev = current;
+>>>>>>> cb9fd420fbca09104ab8ab1f3076dda5fef22db7
 }
 
 /**
@@ -36,6 +58,7 @@ void swap_nodes_right_to_left(listint_t **list, listint_t *current)
  */
 void swap_nodes_left_to_right(listint_t **list, listint_t *current)
 {
+<<<<<<< HEAD
 	listint_t *prev = current->prev;
 	listint_t *next = current->next;
 
@@ -94,4 +117,67 @@ void cocktail_sort_list(listint_t **list)
 			} 
 		} 
 	} 
+=======
+    listint_t *prev = current->prev;
+    listint_t *next = current->next;
+
+    if (prev)
+        prev->next = next;
+    if (next)
+        next->prev = prev;
+
+    current->prev = next;
+    current->next = next ? next->next : NULL;
+
+    if (current->prev)
+        current->prev->next = current;
+
+    if (current->next)
+        current->next->prev = current;
+
+    if (!next)
+        *list = current;
+}
+
+/**
+ * cocktail_sort_list - Sort a listint_t doubly-linked list.
+ * @list: A pointer to the head of a listint_t doubly-linked list.
+ */
+void cocktail_sort_list(listint_t **list)
+{
+    listint_t *Til, *SH;
+    int CHK = 0;
+
+    if (!list || !*list || (*list)->next == NULL)
+        return;
+
+    Til = *list;
+    while (Til->next != NULL)
+        Til = Til->next;
+
+    while (!CHK)
+    {
+        CHK = 1;
+        SH = *list;
+        while (Til != SH)
+        {
+            if (SH->n > SH->next->n)
+            {
+                swap_nodes_right_to_left(list, SH);
+                print_list((const listint_t *)*list);
+                CHK = 0;
+            }
+            SH = SH->next;
+        }
+        for (SH = SH->prev; *list != SH; SH = SH->prev)
+        {
+            if (SH->n < SH->prev->n)
+            {
+                swap_nodes_left_to_right(list, SH->prev);
+                print_list((const listint_t *)*list);
+                CHK = 0;
+            }
+        }
+    }
+>>>>>>> cb9fd420fbca09104ab8ab1f3076dda5fef22db7
 }
