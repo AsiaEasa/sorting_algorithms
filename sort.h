@@ -38,4 +38,9 @@ void swap_pointers(listint_t **list, listint_t **p1, listint_t **p2);
 void swap_nodes(listint_t **list, listint_t *n1, listint_t *n2);
 
 void counting_sort(int *array, size_t size);
+
+void merge_subarr(int *array, int *B, size_t big, size_t m,
+		size_t small);
+void merge_s(int *array, int *B, size_t big, size_t small);
+void merge_sort(int *array, size_t size);
 #endif
