@@ -1,96 +1,114 @@
 #include "sort.h"
-#include <stdbool.h>
-/**
- * S_node_A - Swap a node in a listint_t doubly-linked list
- * list of integers with the node ahead of it.
- * @list: A pointer to the head of a doubly-linked list of integers.
- * @Til: A pointer .
- * @SH: A pointer  .
- */
-void S_node_A(listint_t **list, listint_t **Til, listint_t **SH)
-{
-        listint_t *tmpe = (*SH)->next;
 
-        if ((*SH)->prev != NULL)
-                (*SH)->prev->next = tmpe;
-        else
-                *list = tmpe;
-        tmpe->prev = (*SH)->prev;
-        (*SH)->next = tmpe->next;
-        if (tmpe->next != NULL)
-                tmpe->next->prev = *SH;
-        else
-                *Til = *SH;
-        (*SH)->prev = tmpe;
-        tmpe->next = *SH;
-        *SH = tmpe;
+/**
+ * swap_nodes - Swaps two nodes in a doubly linked list
+ * @head: Pointer to the head of the list
+ * @node1: First node to swap
+ * @node2: Second node to swap
+ */
+void swap_nodes(listint_t **head, listint_t *node1, listint_t *node2)
+{
+	if (node1 == node2)
+		return;
+
+	if (node1->prev)
+		node1->prev->next = node2;
+	if (node2->next)
+		node2->next->prev = node1;
+
+	node1->next = node2->next;
+	node2->prev = node1->prev;
+	node1->prev = node2;
+	node2->next = node1;
+
+	if (node1 == *head)
+		*head = node2;
 }
 
 /**
- * S_node_B - Swap a node in a listint_t doubly-linked
- * list of integers with the node behind it.
- * @list: A pointer to the head of a doubly-linked list of integers.
- * @Til: A pointer .
- * @SH: A pointer.
+ * swap_pointers - Swaps two pointers in a doubly linked list
+ * @head: Pointer to the head of the list
+ * @prev1: Pointer before the first node
+ * @prev2: Pointer before the second node
  */
-void S_node_B(listint_t **list, listint_t **Til, listint_t **SH)
+void swap_pointers(listint_t **head, listint_t **prev1, listint_t **prev2)
 {
-        listint_t *t = (*SH)->prev;
+	listint_t *tmp;
 
-        if ((*SH)->next != NULL)
-                (*SH)->next->prev = t;
-        else
-                *Til = t;
-        t->next = (*SH)->next;
-        (*SH)->prev = t->prev;
-        if (t->prev != NULL)
-                t->prev->next = *SH;
-        else
-                *list = *SH;
-        (*SH)->next = t;
-        t->prev = *SH;
-        *SH = t;
+	if (*prev1)
+		(*prev1)->next = *prev2;
+	if (*prev2)
+		(*prev2)->prev = *prev1;
+
+	tmp = (*prev1)->next;
+	(*prev1)->next = (*prev2)->next;
+	(*prev2)->next = tmp;
+
+	tmp = (*prev1)->prev;
+	(*prev1)->prev = (*prev2)->prev;
+	(*prev2)->prev = tmp;
+
+	if (*prev1 == NULL)
+		*head = *prev2;
+	else if (*prev2 == NULL)
+		*head = *prev1;
 }
-
-/**
- * cocktail_sort_list - Sort a listint_t doubly-linked list .
- * @list: A pointer to the head of a listint_t doubly-linked list.
- */
 void cocktail_sort_list(listint_t **list)
 {
-        listint_t *Til, *SH;
-        bool CHK = false;
+	listint_t *ta, *sh, *next, *prev;
+	int x;
 
-        if (!list || !*list || (*list)->next == NULL)
-                return;
+	if (!list || !(*list) || !((*list)->next))
+		return;
 
-        Til = *list;
-        while (Til->next != NULL)
-                Til = Til->next;
+	ta = *list;
+	while (ta->next)
+		ta = ta->next;
 
-        while (!CHK)
-        {
-                CHK = true;
-                SH = *list;
-                while (Til != SH)
-                {
-                        if (SH->n > SH->next->n)
-                        {
-                                S_node_A(list, &Til, &SH);
-                                print_list((const listint_t *)*list);
-                                CHK = false;
-                        }
-                        SH = SH->next;
-                }
-                for (SH = SH->prev; *list != SH;
-                                SH = SH->prev)
-                {
-                        if (SH->n < SH->prev->n)
-                        {
-                                S_node_B(list, &Til, &SH);
-                                print_list((const listint_t *)*list);
-                                CHK = false;
-                        }
-                }
-        }
+	while (1)
+	{
+		x = 0;
+		sh = *list;
+		while (sh != ta)
+		{
+			next = sh->next;
+			if (sh->n > next->n)
+			{
+				swap_nodes(list, sh, next);
+				print_list((const listint_t *)*list);
+				x = 1;
+			}
+			else
+			{
+				sh = sh->next;
+			}
+		}
+
+		if (x == 0)
+			break;
+
+		ta = ta->prev;
+		sh = ta->prev;
+		while (sh != NULL)
+		{
+			prev = sh->prev;
+			if (sh->n > prev->n)
+			{
+				swap_nodes(list, sh, prev);
+				/* Update the previous pointers for proper swapping */
+				if (prev == NULL)
+					prev = *list;
+				print_list((const listint_t *)*list);
+				x = 1;
+			}
+			else
+			{
+				sh = sh->prev;
+			}
+		}
+
+		if (x == 0)
+			break;
+	}
 }
+
