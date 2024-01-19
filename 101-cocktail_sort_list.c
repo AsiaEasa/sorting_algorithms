@@ -48,10 +48,17 @@ void swap_pointers(listint_t **head, listint_t **prev1, listint_t **prev2)
 	(*prev1)->prev = (*prev2)->prev;
 	(*prev2)->prev = tmp;
 
-	if (*prev1 == NULL)
+	if (*prev1 == NULL && *prev2 != NULL)
+	{
+		(*prev2)->prev = NULL;
 		*head = *prev2;
-	else if (*prev2 == NULL)
+	}
+	else if (*prev2 == NULL && *prev1 != NULL)
+	{
+		(*prev1)->prev = NULL;
 		*head = *prev1;
+	}
+
 }
 void cocktail_sort_list(listint_t **list)
 {
@@ -95,7 +102,7 @@ void cocktail_sort_list(listint_t **list)
 			if (sh->n > prev->n)
 			{
 				swap_nodes(list, sh, prev);
-				/* Update the previous pointers for proper swapping */
+				swap_pointers(list, &(sh->prev), &(prev));
 				if (prev == NULL)
 					prev = *list;
 				print_list((const listint_t *)*list);
@@ -111,4 +118,3 @@ void cocktail_sort_list(listint_t **list)
 			break;
 	}
 }
-
