@@ -1,120 +1,109 @@
 #include "sort.h"
 
 /**
- * swap_nodes - Swaps two nodes in a doubly linked list
- * @head: Pointer to the head of the list
- * @node1: First node to swap
- * @node2: Second node to swap
+ * swap - Swaps two nodes in a doubly linked list
+ * @list: Pointer to the head of the list
+ * @n1: First node to swap
+ * @n2: Second node to swap
  */
-void swap_nodes(listint_t **head, listint_t *node1, listint_t *node2)
+void swap(listint_t **list, listint_t *n1, listint_t *n2)
 {
-	if (node1 == node2)
+	if (n1 == n2)
 		return;
 
-	if (node1->prev)
-		node1->prev->next = node2;
-	if (node2->next)
-		node2->next->prev = node1;
+	if (n1->prev)
+		n1->prev->next = n2;
+	if (n2->next)
+		n2->next->prev = n1;
 
-	node1->next = node2->next;
-	node2->prev = node1->prev;
-	node1->prev = node2;
-	node2->next = node1;
+	n1->next = n2->next;
+	n2->prev = n1->prev;
+	n1->prev = n2;
+	n2->next = n1;
 
-	if (node1 == *head)
-		*head = node2;
+	if (n1 == *list)
+		*list = n2;
 }
 
 /**
- * swap_pointers - Swaps two pointers in a doubly linked list
- * @head: Pointer to the head of the list
- * @prev1: Pointer before the first node
- * @prev2: Pointer before the second node
+ * swap_p - Swaps two pointers in a doubly linked list
+ * @list: Pointer to the head of the list
+ * @p1: Pointer before the first node
+ * @p2: Pointer before the second node
  */
-void swap_pointers(listint_t **head, listint_t **prev1, listint_t **prev2)
+void swap_p(listint_t **list, listint_t **p1, listint_t **p2)
 {
-	listint_t *tmp;
+	listint_t *p;
 
-	if (*prev1)
-		(*prev1)->next = *prev2;
-	if (*prev2)
-		(*prev2)->prev = *prev1;
+	if (*p1)
+		(*p1)->next = *p2;
+	if (*p2)
+		(*p2)->prev = *p1;
 
-	tmp = (*prev1)->next;
-	(*prev1)->next = (*prev2)->next;
-	(*prev2)->next = tmp;
+	p = (*p1)->next;
+	(*p1)->next = (*p2)->next;
+	(*p2)->next = p;
 
-	tmp = (*prev1)->prev;
-	(*prev1)->prev = (*prev2)->prev;
-	(*prev2)->prev = tmp;
+	p = (*p1)->prev;
+	(*p1)->prev = (*p2)->prev;
+	(*p2)->prev = p;
 
-	if (*prev1 == NULL && *prev2 != NULL)
+	if (!*p1 && *p2)
 	{
-		(*prev2)->prev = NULL;
-		*head = *prev2;
+		(*p2)->prev = NULL;
+		*list = *p2;
 	}
-	else if (*prev2 == NULL && *prev1 != NULL)
+	else if (!*p2 && *p1)
 	{
-		(*prev1)->prev = NULL;
-		*head = *prev1;
+		(*p1)->prev = NULL;
+		*list = *p1;
 	}
 
 }
+/**
+ * cocktail_sort_list - Sort a listint_t doubly-linked list of integers.
+ * @list: A pointer to the head of a listint_t doubly-linked list.
+ */
+
 void cocktail_sort_list(listint_t **list)
 {
-	listint_t *ta, *sh, *next, *prev;
+	listint_t *ta, *sh, *ne, *p;
 	int x;
 
 	if (!list || !(*list) || !((*list)->next))
 		return;
 
-	ta = *list;
-	while (ta->next)
-		ta = ta->next;
+	for (ta = *list; ta->next; ta = ta->next)
 
-	while (1)
-	{
-		x = 0;
-		sh = *list;
-		while (sh != ta)
+		while (1)
 		{
-			next = sh->next;
-			if (sh->n > next->n)
-			{
-				swap_nodes(list, sh, next);
-				print_list((const listint_t *)*list);
-				x = 1;
-			}
-			else
-			{
-				sh = sh->next;
-			}
-		}
+			x = 0;
+			sh = *list;
+			while (sh != ta)
+			{ ne = sh->next;
+				if (sh->n > ne->n)
+	     			{ swap(list, sh, ne);
+					print_list((const listint_t *)*list);
+					x = 1; }
+				else
+					sh = sh->next; }
 
-		if (x == 0)
-			break;
-
-		ta = ta->prev;
-		sh = ta->prev;
-		while (sh != NULL)
-		{
-			prev = sh->prev;
-			if (sh->n > prev->n)
+			if (x == 0)
+				break;
+			ta = ta->prev;
+			sh = ta->prev;
+			while (sh)
 			{
-				swap_nodes(list, sh, prev);
-				swap_pointers(list, &(sh->prev), &(prev));
-				if (prev == NULL)
-					prev = *list;
-				print_list((const listint_t *)*list);
-				x = 1;
-			}
-			else
-			{
-				sh = sh->prev;
-			}
-		}
+				p = sh->prev;
+				if (sh->n > p->n)
+				{ swap(list, sh, p);
+					swap_p(list, &(sh->prev), &(p));
+					if (!p)
+						p = *list;
+					print_list((const listint_t *)*list);
+					x = 1; }
+				else
+					sh = sh->prev; }
 
-		if (x == 0)
-			break;
-	}
-}
+			if (x == 0)
+				break; }}
