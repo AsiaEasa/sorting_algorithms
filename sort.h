@@ -36,4 +36,6 @@ void shell_sort(int *array, size_t size);
 void swap(listint_t **list, listint_t *a, listint_t *b);
 void cocktail_sort_list(listint_t **list);
 void swap_node_ahead(listint_t **list, listint_t **tail, listint_t **shaker);
+void swap_nodes_left_to_right(listint_t **list, listint_t *current);
+void swap_nodes_right_to_left(listint_t **list, listint_t *current);
 #endif
