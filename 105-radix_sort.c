@@ -9,7 +9,7 @@
 
 void radix_sort(int *array, size_t size)
 {
-	int l, k, p, x, i;
+	int l, k, p, x;
 
 	l = size;
 	k = size;
