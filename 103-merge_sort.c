@@ -45,7 +45,7 @@ void merge_array(int *array, int *B, size_t big, size_t m,
 /**
  * merge_s - Implement the merge sort algorithm through recursion.
  * @array: A subarray of an array of integers
- * @buff: A buffer to store the result.
+ * @B: A buffer to store the result.
  * @big: The front index.
  * @small: The back index.
  */
