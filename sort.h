@@ -43,4 +43,7 @@ void merge_subarr(int *array, int *B, size_t big, size_t m,
 		size_t small);
 void merge_s(int *array, int *B, size_t big, size_t small);
 void merge_sort(int *array, size_t size);
+
+void heap_sort(int *array, size_t size);
+
 #endif
