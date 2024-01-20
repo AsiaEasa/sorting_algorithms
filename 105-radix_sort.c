@@ -9,41 +9,35 @@
 
 void radix_sort(int *array, size_t size)
 {
-	int l, k, p, x;
+	int l, p, x, g, max, h;
 
 	l = size;
-	k = size;
 
 	if (!array || !size || size < 2)
 		return;
 
-	while (l > 0)
+	for (max = array[0], h = 1; h < (int)size; h++)
 	{
-		for (x = 0; x < l - 1; x++)
-		{
-			if ((array[x] % 10) > (array[x + 1] % 10))
-			{
-				p = array[x];
-				array[x] = array[x + 1];
-				array[x + 1] = p;
-			}
-		}
-		l--;
+		if (array[h] > max)
+			max = array[h];
 	}
-	print_array(array, size);
 
-	while (k > 0)
+	for (g = 1; max / g != 0; g *= 10)
 	{
-		for (x = 0; x < k - 1; x++)
+		l = size;
+		while (l > 0)
 		{
-			if ((array[x] % 100) > (array[x + 1] % 100))
+			for (x = 0; x < l - 1; x++)
 			{
-				p = array[x];
-				array[x] = array[x + 1];
-				array[x + 1] = p;
+				if ((array[x] % (g * 10)) > (array[x + 1] % (g * 10)))
+				{
+					p = array[x];
+					array[x] = array[x + 1];
+					array[x + 1] = p;
+				}
 			}
+			l--;
 		}
-		k--;
+		print_array(array, size);
 	}
-	print_array(array, size);
 }
