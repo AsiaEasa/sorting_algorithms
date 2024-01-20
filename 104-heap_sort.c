@@ -20,20 +20,18 @@ void _heap(int *array, size_t size, size_t B, size_t top)
 	r = ri_ght(top);
 	big = top;
 
-	switch (array[r] > array[big]) {
-		case 1:
-			switch ((int)B > r) {
-				case 1:
-					big = r;
-			}
+	switch (array[r] > array[big])
+	{
+	case 1: switch (r < (int)B)
+		{
+		case 1: big = r; }
 			break;
 	}
-	switch (array[l] > array[big]) {
-		case 1:
-			switch ((int)B > l) {
-				case 1:
-					big = l;
-			}
+	switch (array[l] > array[big])
+	{
+	case 1: switch (l < (int)B)
+		{
+		case 1: big = l; }
 			break;
 	}
 	if (top != (size_t)big)
