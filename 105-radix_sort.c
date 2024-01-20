@@ -14,6 +14,9 @@ void radix_sort(int *array, size_t size)
 	l = size;
 	k = size;
 
+	if (!array || !size || size < 2)
+		return;
+
 	while (l > 0)
 	{
 		for (x = 0; x < l - 1; x++)
