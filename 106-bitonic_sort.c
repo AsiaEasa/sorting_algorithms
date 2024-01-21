@@ -1,5 +1,5 @@
 #include "sort.h"
-
+#include "mid.c"
 #define SIZE 8
 
 /**
