@@ -1,44 +1,16 @@
 #include "sort.h"
 
-void mid(int *array, size_t size)
-{
-	int x;
-	int i;
+#define SIZE 8
 
-	for (i = 0; i < 4; i++)
-	{
-		if (array[i] > array[i + 4])
-		{
-			x = array[i];
-			array[i] = array[i + 4];
-			array[i + 4] = x;
-		}
-	}
-
-	for (i = 0; i <= 4; i++)
-	{
-		if (array[i] > array[i + 2])
-		{
-			x = array[i];
-			array[i] = array[i + 2];
-			array[i + 2] = x;
-		}
-		if(i == 1)
-			i += 3;
-	}
-
-	for (i = 0; i < 8; i+=2)
-	{
-		if (array[i] > array[i + 1])
-		{
-			x = array[i];
-			array[i] = array[i + 1];
-			array[i + 1] = x;
-		}
-	}
-	printf("Result [%u/%lu] (UP):\n", 8, size);
-	print_array(array, (size / 2));
-}
+/**
+ * up_d1 - Sort an array of integers in ascending
+ *              order using the radix sort algorithm.
+ * @array: An array of integers.
+ * @size: The size of the array.
+ * @start: The beginning of the sort
+ * @up: The end of the sort
+ * @l: parameter need to sort 
+ */
 
 void up_d1(int *array, size_t size, int start, int up, int l)
 {
@@ -82,7 +54,7 @@ void up_d1(int *array, size_t size, int start, int up, int l)
 
 			}
 		}
-		for (; j < up + start; j+=2)
+		for (; j <= up; j+=2)
 		{
 			if (array[j] < array[j + 1])
 			{
@@ -95,6 +67,16 @@ void up_d1(int *array, size_t size, int start, int up, int l)
 		print_array(array + start, 4);
 	}
 }
+
+/**
+ * up_d - Sort an array of integers in ascending
+ *              order using the radix sort algorithm.
+ * @array: An array of integers.
+ * @size: The size of the array.
+ * @start: The beginning of the sort
+ * @up: The end of the sort
+ * @l: parameter need to sort 
+ */
 
 void up_d(int *array, size_t size, int start, int up, int l)
 {
@@ -134,11 +116,19 @@ void up_d(int *array, size_t size, int start, int up, int l)
 	up_d1(array, size, start, up, l);
 }
 
+/**
+ * bitonic_sort - Sort an array of integers in ascending
+ *              order using the radix sort algorithm.
+ * @array: An array of integers.
+ * @size: The size of the array.
+ */
+
 void bitonic_sort(int *array, size_t size)
 {
 	size_t len;
 	int i, l, k, start;
-	
+	int arr[SIZE / 2];
+
 	len = size;
 	l = 2;
 	k = 1;
@@ -166,4 +156,34 @@ void bitonic_sort(int *array, size_t size)
 		}
 	}
 	mid(array, size);
+	for (i = 0; i < (int)size; i++)
+	{
+		arr[i] = array[i + size / 2];
+	}
+	printf("Merging [%u/%lu] (DOWN):\n", 8, len);
+	print_array(arr, 8);
+
+	for (i = 4; i >= 2; i /= 2)
+	{
+		printf("Merging [%u/%lu] (UP):\n", i, len);
+		print_array(arr, i);
+	}
+
+	l = 2;
+	k = 1;
+	start = 0;
+
+	up_d(arr, len, start, 2, l++);
+	printf("Merging [%u/%lu] (DOWN):\n", 4, len);
+	print_array(arr + 4, 4);
+	printf("Merging [%u/%lu] (UP):\n", 2, len);
+	print_array(arr + 4, 2);
+	start += 4;
+	up_d(arr, len, start, 6, l++);
+	midD(arr, 16);
+	for (i = 0; i < 8; i++)
+	{
+		array[i + 8] = arr[i];
+	}
+	midf(array, len);
 }

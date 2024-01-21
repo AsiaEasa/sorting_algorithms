@@ -48,6 +48,11 @@ void heap_sort(int *array, size_t size);
 
 void radix_sort(int *array, size_t size);
 
+void midf(int *array, size_t size);
+void midD(int *array, size_t size);
+void mid(int *array, size_t size);
+void up_d1(int *array, size_t size, int start, int up, int l);
+void up_d(int *array, size_t size, int start, int up, int l);
 void bitonic_sort(int *array, size_t size);
 
 #endif
