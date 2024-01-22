@@ -1,3 +1,18 @@
+int _strcmp(const char *s1, const char *s2)
+{
+	int i;
+
+	for (i = 0; s1[i] != '\0' || s2[i] != '\0'; i++)
+	{
+		if (s1[i] != s2[i])
+		{
+			return (s1[i] - s2[i]);
+		}
+	}
+
+	return (0);
+}
+
 int sort(deck_node_t *card)
 {
 	static const char *card_v[] = {"Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"};
@@ -7,7 +22,7 @@ int sort(deck_node_t *card)
 	int i;
 	for (i = 0; i < 13; ++i)
 	{
-		if (strcmp(v, card_v[i]) == 0)
+		if (_strcmp(v, card_v[i]) == 0)
 		{
 			return i + 1 + 13 * card->card->kind;
 		}
