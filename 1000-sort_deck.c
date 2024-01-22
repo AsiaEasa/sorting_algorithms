@@ -3,6 +3,12 @@
 #include <string.h>
 #include "1000.c"
 
+/**
+ * bubble_sort - Sort a deck of cards from spades to diamonds.
+ * @deck: A pointer to the head of a deck_node_t doubly-linked list.
+ *
+ */
+
 void bubble_sort(deck_node_t **deck, int (*compare)(deck_node_t *, deck_node_t *))
 {
     int swapped;
