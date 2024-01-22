@@ -1,6 +1,5 @@
 #include "deck.h"
 #include <stdlib.h>
-#include <string.h>
 #include "1000.c"
 
 
