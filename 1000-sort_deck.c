@@ -4,55 +4,49 @@
 #include "1000.c"
 
 /**
- * bubble_sort - Sort a deck of cards from spades to diamonds.
+ * sort_deck - Sort a deck of cards
  * @deck: A pointer to the head of a deck_node_t doubly-linked list.
- *
  */
 
 void sort_deck(deck_node_t **deck)
 {
-    int swapped;
-    int (*compare)(deck_node_t *, deck_node_t *);
-    deck_node_t *ptr1;
-    deck_node_t *lptr = NULL;
-    deck_node_t *tmp;
+	int (*com_pare)(deck_node_t *, deck_node_t *), ch;
+	deck_node_t *x, *p;
+	deck_node_t *y = NULL;
 
-    if (!deck || !(*deck) || !((*deck)->next))
-        return;
-    compare = compare_cards ;
+	if (!deck || !(*deck) || !((*deck)->next))
+		return;
+	com_pare = com_cards;
 
-    do
-    {
-        swapped = 0;
-        ptr1 = *deck;
+	do {
+		ch = 0;
+		x = *deck;
 
-        while (ptr1->next != lptr)
-        {
-            if (compare(ptr1, ptr1->next) > 0)
-            {
-                tmp = ptr1->next;
-                ptr1->next = tmp->next;
+		while (x->next != y)
+		{
+			if (com_pare(x, x->next) > 0)
+			{
+				p = x->next;
+				x->next = p->next;
 
-                if (tmp->next != NULL)
-                    tmp->next->prev = ptr1;
+				if (p->next)
+					p->next->prev = x;
 
-                tmp->prev = ptr1->prev;
-                ptr1->prev = tmp;
-                tmp->next = ptr1;
+				p->prev = x->prev;
+				x->prev = p;
+				p->next = x;
 
-                if (tmp->prev != NULL)
-                    tmp->prev->next = tmp;
-                else
-                    *deck = tmp;
+				if (p->prev)
+					p->prev->next = p;
+				else
+					*deck = p;
 
-                ptr1 = tmp;
-                swapped = 1;
-            }
-            else
-            {
-                ptr1 = ptr1->next;
-            }
-        }
-        lptr = ptr1;
-    } while (swapped);
-}
+				x = p;
+				ch = 1;
+			}
+			else
+			{
+				x = x->next;
+			}}
+		y = x;
+	} while (ch); }
