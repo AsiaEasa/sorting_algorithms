@@ -1,7 +1,7 @@
 #include "sort.h"
 
 /**
- * lomuto_Par - sorts pivot
+ * hoare_Par - sorts pivot
  * @ar: The array to sort
  * @begin:  start of the index
  * @end: the end of index
@@ -28,7 +28,7 @@ size_t hoare_Par(int *ar, ssize_t begin, ssize_t end, size_t len)
 		} while (ar[j] > pivot);
 
 		if (i >= j)
-			return j;
+			return (j);
 
 		/* Swap elements at i and j */
 		temp = ar[i];
