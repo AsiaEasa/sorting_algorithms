@@ -55,4 +55,5 @@ void up_d1(int *array, size_t size, int start, int up, int l);
 void up_d(int *array, size_t size, int start, int up, int l);
 void bitonic_sort(int *array, size_t size);
 
+void quick_sort_hoare(int *array, size_t size);
 #endif
