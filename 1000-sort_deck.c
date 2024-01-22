@@ -9,15 +9,17 @@
  *
  */
 
-void bubble_sort(deck_node_t **deck, int (*compare)(deck_node_t *, deck_node_t *))
+void sort_deck(deck_node_t **deck)
 {
     int swapped;
+    int (*compare)(deck_node_t *, deck_node_t *);
     deck_node_t *ptr1;
     deck_node_t *lptr = NULL;
     deck_node_t *tmp;
 
-    if (*deck == NULL)
+    if (!deck || !(*deck) || !((*deck)->next))
         return;
+    compare = compare_cards ;
 
     do
     {
@@ -53,16 +55,4 @@ void bubble_sort(deck_node_t **deck, int (*compare)(deck_node_t *, deck_node_t *
         }
         lptr = ptr1;
     } while (swapped);
-}
-/**
- * sort_deck - Sort a deck of cards from ace to king and
- *             from spades to diamonds using bubble sort.
- * @deck: A pointer to the head of a deck_node_t doubly-linked list.
- */
-void sort_deck(deck_node_t **deck)
-{
-    if (!deck || !(*deck) || !((*deck)->next))
-        return;
-
-    bubble_sort(deck, compare_cards);
 }
