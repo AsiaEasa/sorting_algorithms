@@ -172,18 +172,17 @@ void bitonic_sort(int *array, size_t size)
 	k = 1;
 	start = 0;
 
-	up_d(arr, len, start, 2, l++);
+	up_d(arr, len / 2, start, 2, l++);
 	printf("Merging [%u/%lu] (DOWN):\n", 4, len);
 	print_array(arr + 4, 4);
 	printf("Merging [%u/%lu] (UP):\n", 2, len);
 	print_array(arr + 4, 2);
 	start += 4;
-	up_d(arr, len, start, 6, l++);
-	midD(arr, 16);
+	up_d(arr, len / 2, start, 6, l++);
+	midD(arr, len / 2);
 	for (i = 0; i < 8; i++)
 	{
 		array[i + 8] = arr[i];
 	}
 	midf(array, len);
 }
-
