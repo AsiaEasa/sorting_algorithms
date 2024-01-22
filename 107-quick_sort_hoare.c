@@ -11,31 +11,32 @@
 
 size_t hoare_Par(int *ar, ssize_t begin, ssize_t end, size_t len)
 {
-	int pivot;
-	int i, j, temp;
+	int p, i, j, pivot;
 
-	pivot = ar[begin];
+	pivot = ar[end];
 	i = begin - 1, j = end + 1;
 
-	while (1)
+	while (i < j)
 	{
-		do {
-			i++;
-		} while (ar[i] < pivot);
 
-		do {
-			j--;
-		} while (ar[j] > pivot);
+		while (ar[++i] < pivot);
+			;
 
-		if (i >= j)
-			return (j);
+
+		while (ar[--j] > pivot);
+			;
+
 
 		/* Swap elements at i and j */
-		temp = ar[i];
-		ar[i] = ar[j];
-		ar[j] = temp;
-		print_array(ar, len);
+		if (i < j)
+		{
+			p = ar[i];
+			ar[i] = ar[j];
+			ar[j] = p;
+			print_array(ar, len);
+		}
 	}
+	return (i);
 }
 /**
  * quick_rec - sorts an array using the quick sort algorithm
@@ -48,12 +49,12 @@ void quick_rec(int *ar, int begin, int end, size_t len)
 {
 	size_t i_part;
 
-	if (end > begin)
+	if (end - begin > 0)
 	{
 		i_part = hoare_Par(ar, begin, end, len);
 
-		quick_rec(ar, begin, i_part, len);
-		quick_rec(ar, i_part + 1, end, len);
+		quick_rec(ar, begin, i_part - 1, len);
+		quick_rec(ar, i_part, end, len);
 	}
 }
 
