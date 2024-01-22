@@ -3,9 +3,9 @@
 /**
  * hoare_Par - sorts pivot
  * @ar: The array to sort
- * @begin: start of the index
+ * @begin:  start of the index
  * @end: the end of index
- * @len: array of size
+ * @len:  array  of size
  * Return: The index of the pivot
  */
 
@@ -18,11 +18,14 @@ size_t hoare_Par(int *ar, ssize_t begin, ssize_t end, size_t len)
 
 	while (i < j)
 	{
-		while (ar[++i] < pivot)
+
+		while (ar[++i] < pivot);
 			;
 
-		while (ar[--j] > pivot)
+
+		while (ar[--j] > pivot);
 			;
+
 
 		/* Swap elements at i and j */
 		if (i < j)
@@ -35,13 +38,12 @@ size_t hoare_Par(int *ar, ssize_t begin, ssize_t end, size_t len)
 	}
 	return (i);
 }
-
 /**
  * quick_rec - sorts an array using the quick sort algorithm
  * @ar: array to sort
- * @begin: start of index
+ * @begin: start  of index
  * @end: end of index
- * @len: array of size
+ * @len: array  of size
  */
 void quick_rec(int *ar, int begin, int end, size_t len)
 {
@@ -56,9 +58,10 @@ void quick_rec(int *ar, int begin, int end, size_t len)
 	}
 }
 
+
 /**
  * quick_sort_hoare - sorts a list using the quick sort algotithm
- * @array: The array to sort
+ * @array: The array to  sort
  * @size: The size of the array
  */
 void quick_sort_hoare(int *array, size_t size)
@@ -68,4 +71,3 @@ void quick_sort_hoare(int *array, size_t size)
 
 	quick_rec(array, 0, size - 1, size);
 }
-
