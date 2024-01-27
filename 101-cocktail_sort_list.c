@@ -1,109 +1,72 @@
 #include "sort.h"
-
+void swap_nodes(listint_t **list, listint_t *node1, listint_t *node2);
 /**
- * swap - Swaps two nodes in a doubly linked list
- * @list: Pointer to the head of the list
- * @n1: First node to swap
- * @n2: Second node to swap
+ * cocktail_sort_list - Sorts a doubly linked list of integers in ascending order
+ *                      using the Cocktail shaker sort algorithm.
+ * @list: A pointer to the head of a doubly linked list of integers.
  */
-void swap(listint_t **list, listint_t *n1, listint_t *n2)
-{
-	if (n1 == n2)
-		return;
-
-	if (n1->prev)
-		n1->prev->next = n2;
-	if (n2->next)
-		n2->next->prev = n1;
-
-	n1->next = n2->next;
-	n2->prev = n1->prev;
-	n1->prev = n2;
-	n2->next = n1;
-
-	if (n1 == *list)
-		*list = n2;
-}
-
-/**
- * swap_p - Swaps two pointers in a doubly linked list
- * @list: Pointer to the head of the list
- * @p1: Pointer before the first node
- * @p2: Pointer before the second node
- */
-void swap_p(listint_t **list, listint_t **p1, listint_t **p2)
-{
-	listint_t *p;
-
-	if (*p1)
-		(*p1)->next = *p2;
-	if (*p2)
-		(*p2)->prev = *p1;
-
-	p = (*p1)->next;
-	(*p1)->next = (*p2)->next;
-	(*p2)->next = p;
-
-	p = (*p1)->prev;
-	(*p1)->prev = (*p2)->prev;
-	(*p2)->prev = p;
-
-	if (!*p1 && *p2)
-	{
-		(*p2)->prev = NULL;
-		*list = *p2;
-	}
-	else if (!*p2 && *p1)
-	{
-		(*p1)->prev = NULL;
-		*list = *p1;
-	}
-
-}
-/**
- * cocktail_sort_list - Sort a listint_t doubly-linked list of integers.
- * @list: A pointer to the head of a listint_t doubly-linked list.
- */
-
 void cocktail_sort_list(listint_t **list)
 {
-	listint_t *ta, *sh, *ne, *p;
-	int x;
+    int swapped = 1;
+    listint_t *start = NULL;
+    listint_t *end = NULL;
 
-	if (!list || !(*list) || !((*list)->next))
-		return;
+    if (list == NULL || *list == NULL || (*list)->next == NULL)
+        return;
 
-	for (ta = *list; ta->next; ta = ta->next)
+    while (swapped)
+    {
+        swapped = 0;
 
-		while (1)
-		{
-			x = 0;
-			sh = *list;
-			while (sh != ta)
-			{ ne = sh->next;
-				if (sh->n > ne->n)
-	     			{ swap(list, sh, ne);
-					print_list((const listint_t *)*list);
-					x = 1; }
-				else
-					sh = sh->next; }
+        /* Forward pass (left to right) */
+        for (start = *list; start->next != end; start = start->next)
+        {
+            if (start->n > start->next->n)
+            {
+                swap_nodes(list, start, start->next);
+                print_list(*list);
+                swapped = 1;
+            }
+        }
 
-			if (x == 0)
-				break;
-			ta = ta->prev;
-			sh = ta->prev;
-			while (sh)
-			{
-				p = sh->prev;
-				if (sh->n > p->n)
-				{ swap(list, sh, p);
-					swap_p(list, &(sh->prev), &(p));
-					if (!p)
-						p = *list;
-					print_list((const listint_t *)*list);
-					x = 1; }
-				else
-					sh = sh->prev; }
+        if (!swapped)
+            break;
 
-			if (x == 0)
-				break; }}
+        swapped = 0;
+
+        /* Backward pass (right to left) */
+        for (end = start; end->prev != *list; end = end->prev)
+        {
+            if (end->n < end->prev->n)
+            {
+                swap_nodes(list, end->prev, end);
+                print_list(*list);
+                swapped = 1;
+            }
+        }
+    }
+}
+
+/**
+ * swap_nodes - Swaps two nodes in a doubly linked list.
+ * @list: A pointer to the head of a doubly linked list.
+ * @node1: The first node to swap.
+ * @node2: The second node to swap.
+ */
+void swap_nodes(listint_t **list, listint_t *node1, listint_t *node2)
+{
+    if (node1->prev != NULL)
+        node1->prev->next = node2;
+
+    if (node2->next != NULL)
+        node2->next->prev = node1;
+
+    node1->next = node2->next;
+    node2->prev = node1->prev;
+
+    node1->prev = node2;
+    node2->next = node1;
+
+    if (node1 == *list)
+        *list = node2;
+}
